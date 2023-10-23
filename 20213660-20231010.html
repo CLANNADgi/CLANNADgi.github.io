@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>视频播放器</title>
+</head>
+<body>
+
+<div style="text-align:center">
+    <video id="myVideo" controls autoplay style="width: 520px"></video>
+    <br>
+    <button onclick="playPause()">播放/暂停</button>
+    <button onclick="makeBig()">放大</button>
+    <button onclick="makeSmall()">缩小</button>
+    <button onclick="makeNormal()">普通</button>
+    <button onclick="makeNext()">下一个</button>
+
+</div>
+
+<script>
+    var mp4Files = ["2013东西方2马的交锋.mp4","funDogs.mp4","上瘾.mp4","世界冠军江西弃婴.mp4","农民吹牛.mp4","逗八哥狗.mp4"];
+    var myVideo=document.getElementById("myVideo");
+    var currentVideoIndex = 0;
+
+    function playPause()
+    {
+        if (myVideo.paused){
+            myVideo.play();
+        }
+        else
+            myVideo.pause();
+    }
+
+    function makeBig()
+    {
+        myVideo.width=640;
+    }
+
+    function makeSmall()
+    {
+        myVideo.width=440;
+    }
+
+    function makeNormal()
+    {
+        myVideo.width=520;
+    }
+    function makeNext()
+    {
+        myVideo.src = mp4Files[currentVideoIndex];
+        currentVideoIndex++;
+        if (currentVideoIndex >= videoFiles.length) {
+            currentVideoIndex = 0;
+        }
+        myVideo.width=460;
+    }
+
+
+</script>
+
+</body>
+</html>
