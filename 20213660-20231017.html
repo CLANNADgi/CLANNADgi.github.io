@@ -19,7 +19,7 @@
                     "funDogs.mp4", "上瘾.mp4",
                     "世界冠军江西弃婴.mp4","农民吹牛.mp4",
                     "逗八哥狗.mp4"];
-    myVideo.scr = "video/" + mp4Files[0];
+    myVideo.scr = "videoMP4/" + mp4Files[0];
     var i = 0;
     myVideo.addEventListener("timeupdate", function() {
         var currentTimeDom = document.getElementById("currentTime");
@@ -33,9 +33,9 @@
                 console.log("自动播放第一集。")
             }
             if (xjDom.value <= 6) {
-                myVideo.src = "video/" + mp4Files[xjDom.value - 1];
+                myVideo.src = "videoMP4/" + mp4Files[xjDom.value - 1];
             } else {
-                myVideo.src = "video/" + mp4Files[0];
+                myVideo.src = "videoMP4/" + mp4Files[0];
                 console.log("没有此集，自动播放第一集。")
             }
             myVideo.currentTime = currentTimeDom.value;
@@ -63,7 +63,7 @@
             }
         }
 
-        myVideo.src = "video/" + mp4Files[xjValue - 1];
+        myVideo.src = "videoMP4/" + mp4Files[xjValue - 1];
         xjDom.value = xjValue;
         myVideo.play();
     }
