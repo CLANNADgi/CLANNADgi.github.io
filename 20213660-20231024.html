@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    #loge{
+        background-color: black;
+        color: aliceblue;
+        font-size:3em;
+    }
+    </style>
+</head>
+<body>
+<video  controls id="myVideo"></video>
+<div id = "loge">
+    No.1/6
+</div>
+<div>
+    <button onclick="playPause()">播放/暂停</button>
+    <button onclick="makeNext()">下一个</button>
+    TM；<input type="text" value = "0" id = "currentTime">
+    选集:<input type="text" id="xj">
+</div>
+
+<script>
+    var myVideo = document.getElementById("myVideo");
+    var mp4Files = ["2013东西方2马的交锋.mp4",
+                    "funDogs.mp4", "上瘾.mp4",
+                    "世界冠军江西弃婴.mp4","农民吹牛.mp4",
+                    "逗八哥狗.mp4"];
+    myVideo.scr = "videoMP4/" + mp4Files[0];
+    var i = 0;
+    //视频ui全屏
+    var browserWidth = document.body.clientWidth;
+    myVideo.style.width = browserWidth+'px';
+    //水印loge
+    var logoDom = document.getElementById("logo");
+    myVideo.addEventListener("timeupdate", function() {
+        var currentTimeDom = document.getElementById("currentTime");
+        currentTimeDom.value = Math.floor(myVideo.currentTime);
+    });
+
+    function playPause() {
+        if (myVideo.paused) {
+            if (!parseInt(xjDom.value)) {
+                xjDom.value = 1;
+                console.log("自动播放第一集。")
+            }
+            if (xjDom.value <= 6) {
+                myVideo.src = "videoMP4/" + mp4Files[xjDom.value - 1];
+            } else {
+                myVideo.src = "videoMP4/" + mp4Files[0];
+                console.log("没有此集，自动播放第一集。")
+            }
+            myVideo.currentTime = currentTimeDom.value;
+            if (!parseInt(currentTimeDom.value)) {
+                currentTimeDom.value = 0;
+                console.log("你搞什么飞机！");
+            }
+            myVideo.play();
+        }
+        else{
+            myVideo.pause();
+        }
+    }
+
+    function makeNext()
+    {
+        var xjValue = parseInt(xjDom.value);
+        if (!parseInt(xjValue) || xjValue < 1 || xjValue > 5) {
+            xjValue = 1;
+        } else {
+            xjValue++;
+            if (xjValue > 6) {
+                xjValue = 1;
+            }
+        }
+
+        myVideo.src = "videoMP4/" + mp4Files[xjValue - 1];
+        xjDom.value = xjValue;
+        myVideo.play();
+        logoDom.textContent = 'No.' + (i+1)  + mp4Files.length;
+    }
+    var currentTimeDom = document.getElementById("currentTime");
+    var xjDom = document.getElementById("xj");
+</script>
+</body>
+</html>
