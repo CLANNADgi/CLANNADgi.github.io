@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <style>
+        .video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div#logo{
+            background-color: red;
+            color: rgb(26, 16, 16);
+            position: absolute;
+            padding: 10px 20px;
+            right: 1em;
+            top: 1em;
+            font-size: 3em;
+        }
+        div#times{
+            background-color: red;
+            color: black;
+            position: absolute;
+            font-size: 3em;
+        }
+        input#currentTime{
+            font-size: 1em;
+            margin-right: 2em;
+        }
+    </style>
+</head>
+<body>
+<div id="times"></div>
+<div id="logo"></div>
+<div class="video" >
+    <video controls id = "video">
+    </video>
+</div>
+<div id="divDuration"></div>
+<div class="time">
+    <button id = "next5">快进</button>
+    <button id = "pre5">后退</button>
+</div>
+<div class="con">
+    <button id = "next">下一个</button>
+    <button id = "play">播放</button>
+    <button id = "pause">暂停</button>
+    <button id = "pre">上一个</button>
+</div>
+<div>
+    Time: <input type="text" id = "currentTime">
+    <button id="gotoCurrenttime"> 跳转 </button>
+</div>
+<div>
+    视频: <input type="text" id = "videoNum">
+    <button id="videoGoto"> 跳转 </button>
+</div>
+</body>
+<script>
+    var mp4Files = [
+        "2013东西方2马的交锋.mp4","funDogs.mp4",
+        "上瘾.mp4","世界冠军江西弃婴.mp4",
+        "农民吹牛.mp4","逗八哥狗.mp4"
+    ]
+
+
+    var myVideo = document.getElementById("video");
+    var i = 0;
+    var video = document.getElementById("video");
+    myVideo.src = "D:\\bash\\videoMP4" + mp4Files[0];
+    //下一个视频
+    document.getElementById("next").onclick = function(){
+        i++;
+        if(i == mp4Files.length ){
+            i = 0;
+        }
+        myVideo.src = "D:\\bash\\videoMP4" + mp4Files[i];
+        myVideo.play();
+        logoDom.textContent = (i + 1)+ '号/共' + mp4Files.length + '号';;
+    }
+    //播放功能
+    document.getElementById("play").onclick = function(){
+        myVideo.play();
+    }
+    //暂停功能
+    document.getElementById("pause").onclick = function(){
+        myVideo.pause();
+    }
+    //上一个视频功能
+    document.getElementById("pre").onclick = function(){
+        i--;
+        if(i == -1 ){
+            i = mp4Files.length - 1;
+        }
+        myVideo.src = "D:\\bash\\videoMP4" + mp4Files[i];
+        myVideo.play();
+        logoDom.textContent = (i + 1)+ '号/共' + mp4Files.length + '号';
+    }
+    //快进5s
+    document.getElementById("next5").onclick = function(){
+        myVideo.currentTime += 5;
+    }
+    //回退5s
+    document.getElementById("pre5").onclick = function(){
+        myVideo.currentTime -= 5;
+    }
+    //视频跳转时间功能
+    var myCurrentTime = document.getElementById("currentTime");//获得跳转时间的元素
+    document.getElementById('gotoCurrenttime').onclick = function(){
+        if( !parseInt(myCurrentTime.value)){//当输入数值无法转换为INT时，默认跳转到0
+            myVideo.currentTime = 0;
+        }else{
+            myVideo.currentTime = myCurrentTime.value;
+
+        }
+        myVideo.play();
+
+    }
+    //视频跳转功能
+    var myVideonum = document.getElementById("videoNum");
+    document.getElementById('videoGoto').onclick = function(){
+        if( !parseInt(myVideonum.value) || parseInt(myVideonum.value) >= mp4Files.length || parseInt(myVideonum.value) < 0){//当输入数值无法转换为INT时，默认跳转到0
+            myVideo.src = "D:\\bash\\videoMP4" + mp4Files[0];
+            i = 0;
+        }else{
+            myVideo.src = "D:\\bash\\videoMP4" + mp4Files[myVideonum.value];
+            i = myVideonum.value;
+        }
+        myVideo.play();
+        logoDom.textContent = (i + 1)+ '号/共' + mp4Files.length + '号';
+    }
+    //视频全屏
+    var browserWidth = document.body.clientWidth;
+    myVideo.style.width = browserWidth*0.95 + 'px';
+    //logo视频显示
+    var logoDom = document.getElementById('logo');
+    logoDom.textContent = (i + 1)+ '号/共' + mp4Files.length + '号';
+    //实时显示秒数
+    var timesDom = document.getElementById('times');
+    window.setInterval(function(){
+        timesDom.textContent = parseInt(myVideo.currentTime) + '/' + parseInt(myVideo.duration) + 's';
+    },1000)
+    //视频分段功能
+    var durationDom = [];
+    for(let i = 1;i <=9 ;i++){
+        let tempDom = document.createElement('input');
+        tempDom.type = 'button';
+        tempDom.value = 'NO.' + i;
+        tempDom.className = 'setTime';
+        durationDom[i-1] = tempDom;
+        document.getElementById('divDuration').append(tempDom);
+    }
+    for(let i = 1;i <= 9 ;i++){
+        durationDom[i-1].onclick = function(){
+            myVideo.currentTime = myVideo.duration / 9 *(i-1)
+        }
+    }
+</script>
+</body>
+</html>
